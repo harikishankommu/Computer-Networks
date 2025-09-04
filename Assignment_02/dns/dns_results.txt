@@ -1,0 +1,8 @@
+A records for google.com:
+142.250.183.78
+
+MX records for google.com:
+10 smtp.google.com.
+
+No CNAME record found.
+
