@@ -10,9 +10,9 @@ from email.mime.text import MIMEText
 
 # Ethereal credentials
 #Ethereal link: https://ethereal.email/?utm_source=chatgpt.com
-sender_email = "marion.collier61@ethereal.email"
-receiver_email = "marion.collier61@ethereal.email"
-password = "jNQt7XcRGQ8sejCvFm"  # Ethereal account password
+sender_email = "harikishan2304@gmail.com"
+receiver_email = "toletibharat@gmail.com"
+password = "kdnn daev tpqd hzsx"  # Ethereal account password
 
 try:
     # Create email message
@@ -22,8 +22,8 @@ try:
     msg["To"] = receiver_email
 
     # Connect to Ethereal SMTP server
-    server = smtplib.SMTP("smtp.ethereal.email", 587)
-    #server = smtplib.SMTP("smtp.gmail.com", 587)
+    #server = smtplib.SMTP("smtp.ethereal.email", 587)
+    server = smtplib.SMTP("smtp.gmail.com", 587)
     #server.set_debuglevel(1)  # log communication
     server.starttls()  # secure connection
     server.login(sender_email, password)
