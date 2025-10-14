@@ -51,4 +51,4 @@ if __name__ == "__main__":
     
     frames=[f"Data-{i}" for i in range(f)]
     sender(frames, loss_prob, timeout)
-    print("\n\t\t\t\t\t\t\t\t--- All the frames have been successfully transmitted ---\n\n\t\t\t\t\t\t\t\t\t\tEND OF SIMULATION")
+    print("\n\t\t\t\t\t\t\t--- All the frames have been successfully transmitted ---\n\n\t\t\t\t\t\t\t\t\tEND OF SIMULATION")

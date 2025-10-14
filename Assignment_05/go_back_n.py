@@ -31,7 +31,7 @@ def sender(total_frames, window_size, loss_prob, timeout):
             next_seq_num = base
             time.sleep(1)
 
-    print("\n\t\t\t\t\t\t\t\t--- All the frames have been successfully transmitted ---\n\n\t\t\t\t\t\t\t\t\t\tEND OF SIMULATION")
+    print("\n\t\t\t\t\t\t\t--- All the frames have been successfully transmitted ---\n\n\t\t\t\t\t\t\t\t\tEND OF SIMULATION")
 
 
 def receiver(base, last_sent, frames, loss_prob):

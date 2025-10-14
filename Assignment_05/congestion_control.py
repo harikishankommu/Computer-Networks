@@ -59,7 +59,7 @@ def plot_cwnd(rounds, cwnd_data):
 
 
 if __name__ == "__main__":
-    # --- Simulation Parameters ---
+    # -- Simulation Parameters --
     TOTAL_ROUNDS = 20
     INITIAL_SSTHRESH = 16
     PACKET_LOSS_ROUND = 12 # Simulate packet loss at this round
