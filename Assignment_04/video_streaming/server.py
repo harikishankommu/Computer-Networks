@@ -9,7 +9,7 @@ import socket, struct, cv2, time, math
 # ---------------- CONFIG ----------------
 SERVER_IP = "0.0.0.0"   # bind to all interfaces
 SERVER_PORT = 9999
-VIDEO_PATH = "video2.mp4"   # put your video file name here, or 0 for webcam
+VIDEO_PATH = "0"   # put your video file name here, or 0 for webcam
 MAX_WIDTH = 1280
 CHUNK_SIZE = 16384
 JPEG_QUALITY = 85
@@ -30,7 +30,7 @@ def main():
             break
 
     # open video
-    cap = cv2.VideoCapture(0 if VIDEO_PATH == "0" else VIDEO_PATH)
+    cap = cv2.VideoCapture(0 )
     if not cap.isOpened():
         print("[SERVER] ERROR: cannot open video source:", VIDEO_PATH)
         return

@@ -2,7 +2,7 @@ import socket
 
 
 HARI = "Hari Kishan"   
-SERVER_IP = '10.15.7.95'          # Server IP address
+SERVER_IP = '10.38.10.204'          # Server IP address
 SERVER_PORT = 8888                # Server port (>5000 as per requirement)
 
 
