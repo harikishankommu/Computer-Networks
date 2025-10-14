@@ -9,7 +9,11 @@ import socket, struct, cv2, time, math
 # ---------------- CONFIG ----------------
 SERVER_IP = "0.0.0.0"   # bind to all interfaces
 SERVER_PORT = 9999
+<<<<<<< HEAD
 VIDEO_PATH = "0"   # put your video file name here, or 0 for webcam
+=======
+VIDEO_PATH = "video2.mp4"   # put your video file name here, or 0 for webcam
+>>>>>>> ae5064a2dfc0b1cac8a0e864f2b71088f24deaf6
 MAX_WIDTH = 1280
 CHUNK_SIZE = 16384
 JPEG_QUALITY = 85
@@ -30,7 +34,11 @@ def main():
             break
 
     # open video
+<<<<<<< HEAD
     cap = cv2.VideoCapture(0 )
+=======
+    cap = cv2.VideoCapture(0 if VIDEO_PATH == "0" else VIDEO_PATH)
+>>>>>>> ae5064a2dfc0b1cac8a0e864f2b71088f24deaf6
     if not cap.isOpened():
         print("[SERVER] ERROR: cannot open video source:", VIDEO_PATH)
         return
@@ -72,7 +80,10 @@ def main():
             sock.sendto(b"END", client_addr)
         cap.release()
         sock.close()
+<<<<<<< HEAD
         
+=======
+>>>>>>> ae5064a2dfc0b1cac8a0e864f2b71088f24deaf6
         print("[SERVER] Closed")
 
 if __name__ == "__main__":
