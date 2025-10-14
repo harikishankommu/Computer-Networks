@@ -1,72 +1,34 @@
-import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('TkAgg')
+import random
 
-def simulate_tcp_congestion_control(total_rounds, initial_ssthresh, loss_round):
-    """
-    Simulates TCP's cwnd growth and reduction.
-    """
-    cwnd = 1  # Congestion window starts at 1 MSS
-    ssthresh = initial_ssthresh  # Slow Start Threshold
-    
-    cwnd_history = []
-    
-    print("Round |   Phase            | CWND | SSTHRESH")
-    print("------------------------------------------------")
+def tcp_congestion_control(rounds=30, loss_prob=0.2):
+    cwnd = 1
+    ssthresh = 8
+    cwnd_values = []
 
-    for round_num in range(1, total_rounds + 1):
-        cwnd_history.append(cwnd)
+    for r in range(rounds):
+        cwnd_values.append(cwnd)
         
-        # --- Check for packet loss ---
-        if round_num == loss_round:
-            phase = "Packet Loss!"
-            print(f"{round_num:<5} | {phase:<18} | {cwnd:<4} | {ssthresh:<8}")
-            # Multiplicative Decrease
-            ssthresh = cwnd // 2
+        # Simulate loss
+        if random.random() < loss_prob:
+            print(f"Packet loss at round {r}, cwnd={cwnd} → Multiplicative decrease")
+            ssthresh = max(cwnd // 2, 1)
             cwnd = 1
             continue
 
-        # --- Determine current phase ---
+        # Slow Start phase
         if cwnd < ssthresh:
-            phase = "Slow Start"
-            # Exponential Growth: double cwnd for successful ACKs
             cwnd *= 2
         else:
-            phase = "Congestion Avoidance"
-            # Linear Growth: increment cwnd by 1
-            cwnd += 1
-            
-        print(f"{round_num:<5} | {phase:<18} | {cwnd:<4} | {ssthresh:<8}")
-        
-    return cwnd_history
+            cwnd += 1   # Congestion Avoidance
 
-def plot_cwnd(rounds, cwnd_data):
-    """
-    Plots the cwnd size vs. transmission rounds.
-    """
-    plt.figure(figsize=(12, 6))
-    plt.plot(rounds, cwnd_data, marker='o', linestyle='-', label='cwnd')
-    plt.title('TCP Congestion Window (cwnd) Simulation')
-    plt.xlabel('Transmission Round')
-    plt.ylabel('Congestion Window Size (MSS)')
+    # Plot results
+    plt.plot(cwnd_values, marker="o")
+    plt.title("TCP Congestion Control Simulation")
+    plt.xlabel("Transmission Rounds")
+    plt.ylabel("Congestion Window (cwnd)")
     plt.grid(True)
-    plt.legend()
-    plt.xticks(rounds)
-    
-    # Save the plot to a file
-    plt.savefig('cwnd_plot.png')
-    print("\nPlot saved to cwnd_plot.png")
-
+    plt.show()
 
 if __name__ == "__main__":
-    # -- Simulation Parameters --
-    TOTAL_ROUNDS = 20
-    INITIAL_SSTHRESH = 16
-    PACKET_LOSS_ROUND = 12 # Simulate packet loss at this round
-
-    # --- Start Simulation ---
-    history = simulate_tcp_congestion_control(TOTAL_ROUNDS, INITIAL_SSTHRESH, PACKET_LOSS_ROUND)
-    
-    # --- Generate Plot ---
-    rounds = list(range(1, TOTAL_ROUNDS + 1))
-    plot_cwnd(rounds, history)
+    tcp_congestion_control(rounds=30, loss_prob=0.2)

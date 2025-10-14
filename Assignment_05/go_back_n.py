@@ -1,61 +1,42 @@
 import random
-import time
 
-def sender(total_frames, window_size, loss_prob, timeout):
-    
+def go_back_n(total_frames, window_size, loss_prob):
+    """Simulates the Go-Back-N protocol."""
     base = 0
-    next_seq_num = 0
-    frames = [f"Frame-{i}" for i in range(total_frames)]
+    next_frame = 0
     
     while base < total_frames:
-    
-        while next_seq_num < base + window_size and next_seq_num < total_frames:
-            print(f"Sending {frames[next_seq_num]} (Seq: {next_seq_num})...")
-            
-            next_seq_num += 1
+        # Send frames in the current window
+        end = min(base + window_size, total_frames)
+        print(f"Sending frames {list(range(next_frame, end))}")
         
-  
-        start_time = time.time()
-        ack_received = -1 
-        
-        ack_received = receiver(base, next_seq_num - 1, frames, loss_prob)
-
-        while time.time() - start_time < timeout:
-            if ack_received >= base:
-                print(f"Cumulative ACK {ack_received} received.")
-                base = ack_received + 1
+        # Simulate a random frame loss
+        lost_frame = None
+        for f in range(next_frame, end):
+            if random.random() < loss_prob and lost_frame is None:
+                lost_frame = f
+                print(f"❌ Frame {f} lost, retransmitting from frame {f}")
                 break
         
-        if ack_received < base:
-            print(f"\nTimeout! Expected ACK for frame {base}. Retransmitting window.")
-            next_seq_num = base
-            time.sleep(1)
-
-    print("\n\t\t\t\t\t\t\t--- All the frames have been successfully transmitted ---\n\n\t\t\t\t\t\t\t\t\tEND OF SIMULATION")
-
-
-def receiver(base, last_sent, frames, loss_prob):
-
-    expected_frame = base
-    
-    for i in range(base, last_sent + 1):
-
-        if random.random() < loss_prob:
-            print(f"NETWORK: {frames[i]} was lost!!!")
-
-            return expected_frame - 1
-
-        print(f"Receiver: Received {frames[i]} correctly...")
-        expected_frame += 1
-
-    return last_sent
-
+        # If a frame was lost, we go back
+        if lost_frame is not None:
+            next_frame = lost_frame
+        # Otherwise, the transmission was successful
+        else:
+            print(f"✅ ACK for frame {end - 1} received")
+            base = end
+            next_frame = base
+            print(f"➡️ Window slides to {list(range(base, min(base + window_size, total_frames)))}\n")
 
 if __name__ == "__main__":
+    # Get input from the user
+    try:
+        total_frames_input = int(input("Enter total number of frames to send: "))
+        window_size_input = int(input("Enter window size: "))
+        loss_prob_input = float(input("Enter frame loss probability (e.g., 0.2 for 20%): "))
 
-    TOTAL_FRAMES = int(input("Enter number of Frames : "))
-    WINDOW_SIZE = int(input("Enter Window Size : "))
-    LOSS_PROBABILITY = 0.2  
-    TIMEOUT = 2.0          
+        # Run the simulation with user-provided values
+        go_back_n(total_frames_input, window_size_input, loss_prob_input)
 
-    sender(TOTAL_FRAMES, WINDOW_SIZE, LOSS_PROBABILITY, TIMEOUT)
+    except ValueError:
+        print("Invalid input. Please enter valid numbers.")
